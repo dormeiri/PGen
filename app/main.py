@@ -2,6 +2,7 @@ from flask import Flask, jsonify, request
 from password_options import password_options_schema
 from password_generator import PasswordGenerator
 
+
 app = Flask(__name__)
 
 
@@ -16,4 +17,4 @@ def generator():
     
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=80, debug=False)
