@@ -9,14 +9,14 @@ SYMBOLS = tuple('!@#$%^&*()_+[],./<>?;~')
 class PasswordOptions:
     def __init__(
             self, 
-            length: int, 
+            password_length: int, 
             lowers: bool, 
             uppers: bool,
             symbols: bool, 
             digits: bool
         ):
 
-        self.length = length
+        self.password_length = password_length
         self.lowers = lowers
         self.uppers = uppers
         self.symbols = symbols
@@ -42,15 +42,15 @@ class PasswordOptions:
 class PasswordOptionsSchema(Schema):
     repo_validate = validate.Range(min=0)
 
-    length = fields.Int(missing=12, validate=[validate.Range(min=6)])
+    password_length = fields.Int(missing=12, validate=[validate.Range(min=6)])
     lowers = fields.Int(missing=1, validate=[repo_validate])
     uppers = fields.Int(missing=1, validate=[repo_validate])
     symbols = fields.Int(missing=1, validate=[repo_validate])
     digits = fields.Int(missing=1, validate=[repo_validate])
 
     @validates_schema
-    def validate_length(self, data, **kwargs):
-        min_length = sum(
+    def validate_password_length(self, data, **kwargs):
+        min_password_length = sum(
             data[key]
             for key in (
                 'lowers',
@@ -60,10 +60,10 @@ class PasswordOptionsSchema(Schema):
             )
         )
 
-        l = data['length']
-        if min_length > l:
+        l = data['password_length']
+        if min_password_length > l:
             raise ValidationError(
-                f'sum of min length per charcter type ({min_length}) is lower than length ({l})')
+                f'Minimum length ({min_password_length}) is greater than password length ({l})')
 
     @post_load
     def make_object(self, data, **kwargs):

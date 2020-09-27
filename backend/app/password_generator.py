@@ -14,7 +14,7 @@ class PasswordGenerator:
             for i in range(repo[0]):
                 s += self.rand_char(repo[1])
 
-        for i in range(len(s), self.opts.length):
+        for i in range(len(s), self.opts.password_length):
             s += self.rand_char(self.opts.all_chars)
 
         password = self.shuffle(s)
